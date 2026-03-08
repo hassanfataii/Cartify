@@ -1,0 +1,25 @@
+{
+  "users": [
+    { "key": { "email": 1 }, "options": { "unique": true } }
+  ],
+  "carts": [
+    { "key": { "userId": 1 }, "options": { "unique": true } }
+  ],
+  "orders": [
+    { "key": { "userId": 1, "placedAt": -1 } },
+    { "key": { "stripeSessionId": 1 }, "options": { "unique": true } }
+  ],
+  "products": [
+    { "key": { "category": 1 } },
+    { "key": { "price": 1 } }
+  ],
+  "categories": [
+    {
+      "key": { "slug": 1 },
+      "options": {
+        "unique": true,
+        "partialFilterExpression": { "slug": { "$type": "string" } }
+      }
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622df8"
+  },
+  "title": "Wireless Mouse",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4ab"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.888Z"
+  },
+  "description": "Wireless mouse with ergonomic design.",
+  "images": [
+    "/images/14ec529b674be5f932fd99f1a0790b05.jpeg"
+  ],
+  "isActive": true,
+  "price": 1999,
+  "stock": 95,
+  "updatedAt": {
+    "$date": "2025-08-21T16:46:49.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622df9"
+  },
+  "title": "Apple iPhone Charger",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4ab"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.895Z"
+  },
+  "description": "Fast charging adapter/cable for iPhone.",
+  "images": [
+    "/images/iPhone charger.jpg"
+  ],
+  "isActive": true,
+  "price": 2999,
+  "stock": 96,
+  "updatedAt": {
+    "$date": "2025-08-21T17:47:47.085Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622dfa"
+  },
+  "title": "Smart Tv",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4a9"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.898Z"
+  },
+  "description": "4K smart television with streaming apps.",
+  "images": [
+    "/images/94e5583db1bece04f59ea1ffe68db926.webp"
+  ],
+  "isActive": true,
+  "price": 59999,
+  "stock": 97,
+  "updatedAt": {
+    "$date": "2025-08-21T17:47:47.085Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622dfb"
+  },
+  "title": "iPhone 14 pro 128gb",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4a9"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.900Z"
+  },
+  "description": "Apple smartphone with 128GB storage.",
+  "images": [
+    "/images/a034f1d78f62dfbbd6c5b50f19ecab4e.webp"
+  ],
+  "isActive": true,
+  "price": 99999,
+  "stock": 96,
+  "updatedAt": {
+    "$date": "2025-08-21T20:14:37.893Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622dfc"
+  },
+  "title": "Apple Watch",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4a9"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.903Z"
+  },
+  "description": "Smartwatch with fitness and notifications.",
+  "images": [
+    "/images/Apple watch.jpg"
+  ],
+  "isActive": true,
+  "price": 64999,
+  "stock": 88,
+  "updatedAt": {
+    "$date": "2025-08-21T20:14:37.893Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622dfd"
+  },
+  "title": "FC 25 PS5",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4aa"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.905Z"
+  },
+  "description": "EA Sports FC 25 for PlayStation 5.",
+  "images": [
+    "/images/ea-sports-fc-25-ps5-986x1100w.jpg"
+  ],
+  "isActive": true,
+  "price": 5999,
+  "stock": 92,
+  "updatedAt": {
+    "$date": "2025-08-21T19:31:50.923Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a610385ea8fbd62f622dfe"
+  },
+  "title": "Playstation 5",
+  "category": {
+    "$oid": "68a60ff5c5b9b4010eeec4aa"
+  },
+  "createdAt": {
+    "$date": "2025-08-20T18:13:12.909Z"
+  },
+  "description": "Sony PlayStation 5 console.",
+  "images": [
+    "/images/PS5.jpg"
+  ],
+  "isActive": true,
+  "price": 44999,
+  "stock": 95,
+  "updatedAt": {
+    "$date": "2025-08-21T19:31:50.924Z"
+  }
+}]

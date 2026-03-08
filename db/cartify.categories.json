@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "68a60ff5c5b9b4010eeec4a9"
+  },
+  "name": "Electronics",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "68a60ff5c5b9b4010eeec4aa"
+  },
+  "name": "Gaming",
+  "isActive": true
+},
+{
+  "_id": {
+    "$oid": "68a60ff5c5b9b4010eeec4ab"
+  },
+  "name": "Accessories",
+  "isActive": true
+}]

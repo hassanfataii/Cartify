@@ -1,5 +1,4 @@
 import express from "express";
-
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
@@ -25,8 +24,14 @@ import {
 
 const app = express();
 
+// Render terminates HTTPS before forwarding requests to Express.
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.use(helmet());
 
+// Allow the configured storefront to make credentialed requests.
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -34,8 +39,8 @@ app.use(
   }),
 );
 
-// Stripe needs the unmodified request body.
-// This must remain above express.json().
+// Stripe needs the original body for signature verification.
+// Register this route before JSON parsing and browser origin checks.
 app.post(
   "/api/checkout/webhook",
   express.raw({
@@ -43,6 +48,27 @@ app.post(
   }),
   handleStripeWebhook,
 );
+
+// Reject browser mutations from other origins.
+// CORS alone does not prevent cross-site requests from being submitted.
+app.use((request, response, next) => {
+  const safeMethods = ["GET", "HEAD", "OPTIONS"];
+
+  if (safeMethods.includes(request.method)) {
+    return next();
+  }
+
+  const origin = request.get("Origin");
+  const allowedOrigin = process.env.FRONTEND_URL?.replace(/\/+$/, "");
+
+  if (origin && origin !== allowedOrigin) {
+    return response.status(403).json({
+      error: "This request came from an unapproved website",
+    });
+  }
+
+  return next();
+});
 
 app.use(
   express.json({
@@ -52,61 +78,29 @@ app.use(
 
 app.use(cookieParser());
 
-app.get(
-  "/api/health",
-  (request, response) => {
-    response.status(200).json({
-      status: "ok",
-      message: "Cartify API is running",
-      timestamp: new Date().toISOString(),
-    });
-  },
-);
+// Prevent shared caches from storing API responses containing user data.
+app.use("/api", (request, response, next) => {
+  response.set("Cache-Control", "no-store");
+  next();
+});
 
-app.use(
-  "/api/categories",
-  categoryRoutes,
-);
+app.get("/api/health", (request, response) => {
+  response.status(200).json({
+    status: "ok",
+    message: "Cartify API is running",
+    timestamp: new Date().toISOString(),
+  });
+});
 
-app.use(
-  "/api/products",
-  productRoutes,
-);
-
-app.use(
-  "/api/cart",
-  cartRoutes,
-);
-
-app.use(
-  "/api/auth",
-  authRoutes,
-);
-
-app.use(
-  "/api/account",
-  accountRoutes,
-);
-
-app.use(
-  "/api/checkout",
-  checkoutRoutes,
-);
-
-app.use(
-  "/api/orders",
-  orderRoutes,
-);
-
-app.use(
-  "/api/wishlist",
-  wishlistRoutes,
-);
-
-app.use(
-  "/api/admin",
-  adminRoutes,
-);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/account", accountRoutes);
+app.use("/api/checkout", checkoutRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

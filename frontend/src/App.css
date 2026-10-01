@@ -241,6 +241,43 @@ html{
 }
 
 
+/* Authentication - Google sign-in */
+.auth-google-option {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.google-sign-in {
+  width: 100%;
+  display: grid;
+  justify-items: stretch;
+}
+
+.google-sign-in__button {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.google-sign-in__button > div,
+.google-sign-in__button iframe {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.google-sign-in__error {
+  margin: 10px 0 0;
+  color: var(--danger);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+
 .secondary-button {
   display: inline-flex;
   align-items: center;
@@ -541,6 +578,192 @@ html{
 .orders-heading > p:last-child,
 .order-detail-heading p:last-child {
   color: var(--muted);
+}
+
+
+/* Customer orders - search, sorting and result controls */
+.orders-toolbar {
+  margin-bottom: 14px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.orders-search {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.orders-search > label,
+.orders-sort > span {
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.orders-search__controls {
+  min-width: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.orders-search__controls input,
+.orders-sort select {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-solid);
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.orders-search__controls input {
+  width: min(100%, 430px);
+  min-width: 0;
+}
+
+.orders-search__controls input::placeholder {
+  color: var(--muted);
+}
+
+.orders-search__controls input:focus,
+.orders-sort select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(98, 70, 199, 0.12);
+}
+
+.orders-search__controls .primary-button {
+  min-height: 48px;
+  padding-inline: 24px;
+  flex: 0 0 auto;
+}
+
+.orders-sort {
+  display: grid;
+  gap: 8px;
+}
+
+.orders-sort select {
+  min-width: 170px;
+  cursor: pointer;
+}
+
+.orders-result-summary {
+  min-height: 32px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.orders-result-summary button {
+  padding: 0;
+  border: 0;
+  color: var(--brand);
+  background: transparent;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.orders-result-summary button:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.orders-feedback,
+.orders-empty {
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.orders-feedback {
+  color: var(--muted);
+  text-align: center;
+}
+
+.orders-empty {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+.orders-empty h2,
+.orders-empty p {
+  margin: 0;
+}
+
+.orders-empty p {
+  color: var(--muted);
+}
+
+.orders-feedback--error {
+  color: var(--danger) !important;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .orders-toolbar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .orders-search__controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .orders-search__controls input {
+    width: 100%;
+  }
+
+  .orders-sort select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .orders-toolbar {
+    padding: 14px;
+  }
+
+  .orders-search__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .orders-search__controls .primary-button {
+    width: 100%;
+  }
+
+  .orders-result-summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .orders-feedback,
+  .orders-empty {
+    padding: 24px 18px;
+  }
 }
 
 .orders-list {

@@ -396,8 +396,10 @@ export default function AuthPage() {
         )}
 
         <div className="auth-google-option">
-          <span className="auth-google-option__divider">or continue with</span>
-          <GoogleSignInButton onCredential={handleGoogleCredential} disabled={submitting} />
+          <GoogleSignInButton
+            onCredential={handleGoogleCredential}
+            disabled={submitting}
+          />
         </div>
 
         {generalError && (

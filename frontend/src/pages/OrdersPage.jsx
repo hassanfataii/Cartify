@@ -14,9 +14,15 @@ function formatOrderDate(date) {
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [pagination, setPagination] = useState(null);
-  const [page, setPage] = useState(1);
+  const [searchInput, setSearchInput] = useState("");
+  const [filters, setFilters] = useState({
+    page: 1,
+    search: "",
+    sort: "newest",
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reload, setReload] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -26,7 +32,10 @@ export default function OrdersPage() {
       setError("");
 
       try {
-        const data = await getOrders(page);
+        const data = await getOrders(filters.page, {
+          search: filters.search,
+          sort: filters.sort,
+        });
 
         if (!cancelled) {
           setOrders(data.orders);
@@ -35,8 +44,7 @@ export default function OrdersPage() {
       } catch (requestError) {
         if (!cancelled) {
           setError(
-            requestError.message ||
-              "Unable to load your orders",
+            requestError.message || "Unable to load your orders",
           );
         }
       } finally {
@@ -51,38 +59,41 @@ export default function OrdersPage() {
     return () => {
       cancelled = true;
     };
-  }, [page]);
+  }, [filters, reload]);
 
-  if (loading) {
-    return (
-      <main className="message-page">
-        <p>Loading your orders...</p>
-      </main>
-    );
+  function handleSearch(event) {
+    event.preventDefault();
+
+    const search = searchInput
+      .trim()
+      .replace(/^#/, "")
+      .toUpperCase();
+
+    setSearchInput(search);
+    setFilters((current) => ({
+      ...current,
+      page: 1,
+      search,
+    }));
   }
 
-  if (error) {
-    return (
-      <main className="message-page">
-        <p className="eyebrow">Something went wrong</p>
-        <h1>Orders unavailable</h1>
-        <p>{error}</p>
-      </main>
-    );
+  function clearSearch() {
+    setSearchInput("");
+    setFilters((current) => ({
+      ...current,
+      page: 1,
+      search: "",
+    }));
   }
 
-  if (orders.length === 0) {
-    return (
-      <main className="message-page">
-        <p className="eyebrow">Order history</p>
-        <h1>No orders yet</h1>
-        <p>Your completed orders will appear here.</p>
+  function changeSort(event) {
+    const sort = event.target.value;
 
-        <Link className="primary-button" to="/shop">
-          Start shopping
-        </Link>
-      </main>
-    );
+    setFilters((current) => ({
+      ...current,
+      page: 1,
+      sort,
+    }));
   }
 
   return (
@@ -90,118 +101,215 @@ export default function OrdersPage() {
       <div className="orders-heading">
         <p className="eyebrow">Your account</p>
         <h1>Order history</h1>
-        <p>
-          View your purchases and their current status.
-        </p>
+        <p>View your purchases and their current status.</p>
       </div>
 
-      <section className="orders-list">
-        {orders.map((order) => (
-          <article className="order-card" key={order.id}>
-            <header className="order-card__header">
-              <div>
-                <span>Order placed</span>
-                <strong>
-                  {formatOrderDate(order.createdAt)}
-                </strong>
-              </div>
+      <div className="orders-toolbar">
+        <form className="orders-search" onSubmit={handleSearch}>
+          <label htmlFor="order-search">Order number</label>
 
-              <div>
-                <span>Total</span>
-                <strong>
-                  {formatCurrency(order.totalInPence)}
-                </strong>
-              </div>
+          <div className="orders-search__controls">
+            <input
+              id="order-search"
+              type="search"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              placeholder="Search order number"
+              maxLength={25}
+              autoComplete="off"
+              spellCheck={false}
+            />
 
-              <div>
-                <span>Order number</span>
-                <strong>
-                  {order.id.slice(-8).toUpperCase()}
-                </strong>
-              </div>
+            <button className="primary-button" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
 
-              <span
-                className={`order-status order-status--${order.status}`}
-              >
-                {order.status.replaceAll("_", " ")}
-              </span>
-            </header>
+        <label className="orders-sort">
+          <span>Sort by date</span>
 
-            <div className="order-card__body">
-              <div className="order-card__products">
-                {order.items.map((item) => (
-                  <div
-                    className="order-card__product"
-                    key={item.productId}
-                  >
-                    <Link
-                      className="order-card__image"
-                      to={`/products/${item.slug}`}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                      />
-                    </Link>
+          <select value={filters.sort} onChange={changeSort}>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </label>
+      </div>
 
-                    <div>
-                      <Link
-                        to={`/products/${item.slug}`}
-                      >
-                        <strong>{item.title}</strong>
-                      </Link>
+      <div className="orders-result-summary">
+        <span role="status">
+          {loading
+            ? "Loading your orders…"
+            : error
+              ? "Unable to load orders"
+              : `${pagination?.totalOrders ?? 0} ${
+                  pagination?.totalOrders === 1 ? "order" : "orders"
+                }${filters.search ? ` matching “${filters.search}”` : ""}`}
+        </span>
 
-                      <span>
-                        Quantity: {item.quantity}
-                      </span>
-
-                      <span>
-                        {formatCurrency(
-                          item.lineTotalInPence,
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                className="secondary-button"
-                to={`/orders/${order.id}`}
-              >
-                View order
-              </Link>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      {pagination && pagination.totalPages > 1 && (
-        <div className="pagination">
-          <button
-            type="button"
-            onClick={() =>
-              setPage((current) => current - 1)
-            }
-            disabled={page <= 1}
-          >
-            Previous
+        {filters.search && (
+          <button type="button" onClick={clearSearch}>
+            Clear search
           </button>
+        )}
+      </div>
 
-          <span>
-            Page {page} of {pagination.totalPages}
-          </span>
+      {error ? (
+        <div className="orders-empty">
+          <p className="orders-feedback--error" role="alert">
+            {error}
+          </p>
 
           <button
+            className="secondary-button"
             type="button"
-            onClick={() =>
-              setPage((current) => current + 1)
-            }
-            disabled={page >= pagination.totalPages}
+            onClick={() => setReload((current) => current + 1)}
           >
-            Next
+            Try again
           </button>
         </div>
+      ) : loading ? (
+        <div className="orders-feedback" role="status">
+          Loading your orders…
+        </div>
+      ) : orders.length === 0 ? (
+        <section className="orders-empty">
+          <h2>
+            {filters.search ? "No matching orders" : "No orders yet"}
+          </h2>
+
+          <p>
+            {filters.search
+              ? "Check the order number or clear your search."
+              : "Your completed orders will appear here."}
+          </p>
+
+          {filters.search ? (
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={clearSearch}
+            >
+              Show all orders
+            </button>
+          ) : (
+            <Link className="primary-button" to="/shop">
+              Start shopping
+            </Link>
+          )}
+        </section>
+      ) : (
+        <>
+          <section className="orders-list" aria-label="Your orders">
+            {orders.map((order) => (
+              <article className="order-card" key={order.id}>
+                <header className="order-card__header">
+                  <div>
+                    <span>Order placed</span>
+                    <strong>
+                      {formatOrderDate(order.createdAt)}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Total</span>
+                    <strong>
+                      {formatCurrency(order.totalInPence)}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Order number</span>
+                    <strong>
+                      {order.orderNumber ||
+                        order.id.slice(-8).toUpperCase()}
+                    </strong>
+                  </div>
+
+                  <span
+                    className={`order-status order-status--${order.status}`}
+                  >
+                    {order.status.replaceAll("_", " ")}
+                  </span>
+                </header>
+
+                <div className="order-card__body">
+                  <div className="order-card__products">
+                    {order.items.map((item) => (
+                      <div
+                        className="order-card__product"
+                        key={item.productId}
+                      >
+                        <Link
+                          className="order-card__image"
+                          to={`/products/${item.slug}`}
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            loading="lazy"
+                          />
+                        </Link>
+
+                        <div>
+                          <Link to={`/products/${item.slug}`}>
+                            <strong>{item.title}</strong>
+                          </Link>
+
+                          <span>Quantity: {item.quantity}</span>
+                          <span>
+                            {formatCurrency(item.lineTotalInPence)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    className="secondary-button"
+                    to={`/orders/${order.id}`}
+                  >
+                    View order
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </section>
+
+          {pagination && pagination.totalPages > 1 && (
+            <div className="pagination">
+              <button
+                type="button"
+                onClick={() =>
+                  setFilters((current) => ({
+                    ...current,
+                    page: current.page - 1,
+                  }))
+                }
+                disabled={filters.page <= 1}
+              >
+                Previous
+              </button>
+
+              <span>
+                Page {filters.page} of {pagination.totalPages}
+              </span>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setFilters((current) => ({
+                    ...current,
+                    page: current.page + 1,
+                  }))
+                }
+                disabled={filters.page >= pagination.totalPages}
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );

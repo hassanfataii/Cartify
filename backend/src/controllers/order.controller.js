@@ -11,6 +11,7 @@ function createHttpError(status, message) {
 function serializeOrder(order, includeDetails = false) {
   const serializedOrder = {
     id: order._id.toString(),
+    orderNumber: order._id.toString().slice(-8).toUpperCase(),
 
     items: order.items.map((item) => ({
       productId: item.productId.toString(),
@@ -72,19 +73,63 @@ export async function getOrders(request, response) {
   const filter = {
     userId: request.userId,
 
-    // Do not show abandoned or failed checkout attempts.
+    // Hide abandoned or failed checkout attempts.
     status: {
       $nin: ["checkout_failed", "pending"],
     },
   };
 
+  const search = String(request.query.search || "")
+    .trim()
+    .replace(/^#/, "")
+    .toLowerCase();
+
+  const sort = request.query.sort || "newest";
+
+  if (search && !/^[a-f0-9]{1,24}$/.test(search)) {
+    throw createHttpError(
+      400,
+      "Enter a valid order number (letters A–F and numbers)",
+    );
+  }
+
+  if (sort !== "newest" && sort !== "oldest") {
+    throw createHttpError(
+      400,
+      "Choose newest or oldest first",
+    );
+  }
+
+  if (search.length === 24) {
+    filter._id = new ObjectId(search);
+  } else if (search) {
+    // Match the displayed eight-character number.
+    // Every search also retains the customer ownership filter.
+    filter.$expr = {
+      $regexMatch: {
+        input: {
+          $substrBytes: [
+            { $toString: "$_id" },
+            16,
+            8,
+          ],
+        },
+        regex: search,
+      },
+    };
+  }
+
+  const direction = sort === "oldest" ? 1 : -1;
   const skip = (page - 1) * limit;
 
   const [orders, totalOrders] = await Promise.all([
     database
       .collection("orders")
       .find(filter)
-      .sort({ createdAt: -1 })
+      .sort({
+        createdAt: direction,
+        _id: direction,
+      })
       .skip(skip)
       .limit(limit)
       .toArray(),
@@ -93,9 +138,7 @@ export async function getOrders(request, response) {
   ]);
 
   response.json({
-    orders: orders.map((order) =>
-      serializeOrder(order),
-    ),
+    orders: orders.map((order) => serializeOrder(order)),
 
     pagination: {
       page,
@@ -109,10 +152,7 @@ export async function getOrders(request, response) {
   });
 }
 
-export async function getOrderById(
-  request,
-  response,
-) {
+export async function getOrderById(request, response) {
   if (!ObjectId.isValid(request.params.orderId)) {
     throw createHttpError(400, "Order ID is invalid");
   }

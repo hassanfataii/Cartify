@@ -13,6 +13,7 @@ import AccountPage from "./pages/AccountPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
+import AdminReturnsPage from "./pages/AdminReturnsPage";
 import AuthPage from "./pages/AuthPage";
 import CartPage from "./pages/CartPage";
 import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
@@ -56,61 +57,91 @@ function NotFoundPage() {
 export default function App() {
   return (
     <Routes>
-      <Route element={<SiteLayout />}>
+      <Route
+        element={
+          <SiteLayout />
+        }
+      >
         <Route
           path="/"
-          element={<HomePage />}
+          element={
+            <HomePage />
+          }
         />
 
         <Route
           path="/shop"
-          element={<ShopPage />}
+          element={
+            <ShopPage />
+          }
         />
 
         <Route
           path="/products/:slug"
-          element={<ProductPage />}
+          element={
+            <ProductPage />
+          }
         />
 
         <Route
           path="/login"
-          element={<AuthPage />}
+          element={
+            <AuthPage />
+          }
         />
 
         <Route
           path="/forgot-password"
-          element={<ForgotPasswordPage />}
+          element={
+            <ForgotPasswordPage />
+          }
         />
 
         <Route
           path="/reset-password"
-          element={<ResetPasswordPage />}
+          element={
+            <ResetPasswordPage />
+          }
         />
 
-        <Route element={<ProtectedRoute />}>
+        <Route
+          element={
+            <ProtectedRoute />
+          }
+        >
           <Route
             path="/account"
-            element={<AccountPage />}
+            element={
+              <AccountPage />
+            }
           />
 
           <Route
             path="/cart"
-            element={<CartPage />}
+            element={
+              <CartPage />
+            }
           />
 
           <Route
             path="/wishlist"
-            element={<WishlistPage />}
+            element={
+              <WishlistPage />
+            }
           />
 
           <Route
             path="/orders"
-            element={<OrdersPage />}
+            element={
+              <OrdersPage />
+            }
           />
 
           <Route
             path="/orders/:orderId"
-            element={<OrderPage />}
+            element={
+              <OrderPage />
+            }
           />
 
           <Route
@@ -123,12 +154,22 @@ export default function App() {
 
         <Route
           path="*"
-          element={<NotFoundPage />}
+          element={
+            <NotFoundPage />
+          }
         />
       </Route>
 
-      <Route element={<AdminRoute />}>
-        <Route element={<AdminLayout />}>
+      <Route
+        element={
+          <AdminRoute />
+        }
+      >
+        <Route
+          element={
+            <AdminLayout />
+          }
+        >
           <Route
             path="/admin"
             element={
@@ -140,6 +181,13 @@ export default function App() {
             path="/admin/products"
             element={
               <AdminProductsPage />
+            }
+          />
+
+          <Route
+            path="/admin/returns"
+            element={
+              <AdminReturnsPage />
             }
           />
 

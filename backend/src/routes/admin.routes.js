@@ -1,4 +1,6 @@
-import { Router } from "express";
+import {
+  Router,
+} from "express";
 
 import {
   getAdminSummary,
@@ -30,6 +32,11 @@ import {
 } from "../middleware/upload.middleware.js";
 
 import {
+  getAdminReturns,
+  updateAdminReturnStatus,
+} from "../controllers/admin-return.controller.js";
+
+import {
   requireAdmin,
 } from "../middleware/admin.middleware.js";
 
@@ -37,7 +44,8 @@ import {
   requireAuthentication,
 } from "../middleware/auth.middleware.js";
 
-const router = Router();
+const router =
+  Router();
 
 router.use(
   requireAuthentication,
@@ -78,6 +86,16 @@ router.get(
 router.patch(
   "/orders/:orderId/status",
   updateAdminOrderStatus,
+);
+
+router.get(
+  "/returns",
+  getAdminReturns,
+);
+
+router.patch(
+  "/returns/:returnId/status",
+  updateAdminReturnStatus,
 );
 
 export default router;

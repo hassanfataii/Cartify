@@ -1,5 +1,10 @@
-import { Router } from "express";
-import { rateLimit } from "express-rate-limit";
+import {
+  Router,
+} from "express";
+
+import {
+  rateLimit,
+} from "express-rate-limit";
 
 import {
   getCurrentUser,
@@ -14,35 +19,50 @@ import {
   resetPassword,
 } from "../controllers/password-reset.controller.js";
 
-import {
-  requireAuthentication,
-} from "../middleware/auth.middleware.js";
+const router =
+  Router();
 
-const router = Router();
+const authenticationLimiter =
+  rateLimit({
+    windowMs:
+      15 *
+      60 *
+      1000,
 
-const authenticationLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
+    limit: 10,
 
-  message: {
-    error:
-      "Too many authentication attempts. Please try again later.",
-  },
-});
+    standardHeaders:
+      "draft-8",
 
-const passwordResetLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 5,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
+    legacyHeaders:
+      false,
 
-  message: {
-    error:
-      "Too many password reset attempts. Please try again later.",
-  },
-});
+    message: {
+      error:
+        "Too many authentication attempts. Please try again later.",
+    },
+  });
+
+const passwordResetLimiter =
+  rateLimit({
+    windowMs:
+      15 *
+      60 *
+      1000,
+
+    limit: 5,
+
+    standardHeaders:
+      "draft-8",
+
+    legacyHeaders:
+      false,
+
+    message: {
+      error:
+        "Too many password reset attempts. Please try again later.",
+    },
+  });
 
 router.post(
   "/register",
@@ -56,7 +76,11 @@ router.post(
   login,
 );
 
-router.post("/google", authenticationLimiter, googleLogin);
+router.post(
+  "/google",
+  authenticationLimiter,
+  googleLogin,
+);
 
 router.post(
   "/forgot-password",
@@ -77,7 +101,6 @@ router.post(
 
 router.get(
   "/me",
-  requireAuthentication,
   getCurrentUser,
 );
 

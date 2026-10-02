@@ -17,67 +17,112 @@ import {
 
 const AuthContext = createContext(null);
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [initialising, setInitialising] = useState(true);
+export function AuthProvider({
+  children,
+}) {
+  const [user, setUser] =
+    useState(null);
 
-  const refreshUser = useCallback(async () => {
-    try {
-      const response = await getCurrentUser();
-      setUser(response.user);
+  const [
+    initialising,
+    setInitialising,
+  ] = useState(true);
 
-      return response.user;
-    } catch (error) {
-      if (error.status === 401 || error.status === 404) {
-        setUser(null);
-        return null;
-      }
+  const refreshUser =
+    useCallback(async () => {
+      const response =
+        await getCurrentUser();
 
-      throw error;
-    }
-  }, []);
+      const currentUser =
+        response?.user ?? null;
+
+      setUser(currentUser);
+
+      return currentUser;
+    }, []);
 
   useEffect(() => {
+    let active = true;
+
     refreshUser()
       .catch((error) => {
-        console.error("Failed to restore session:", error);
+        if (!active) return;
+
+        console.error(
+          "Failed to restore session:",
+          error,
+        );
+
         setUser(null);
       })
       .finally(() => {
-        setInitialising(false);
+        if (active) {
+          setInitialising(false);
+        }
       });
+
+    return () => {
+      active = false;
+    };
   }, [refreshUser]);
 
-  const register = useCallback(async (details) => {
-    const response = await registerAccount(details);
-    setUser(response.user);
+  const register =
+    useCallback(
+      async (details) => {
+        const response =
+          await registerAccount(
+            details,
+          );
 
-    return response;
-  }, []);
+        setUser(response.user);
 
-  const login = useCallback(async (credentials) => {
-    const response = await loginAccount(credentials);
-    setUser(response.user);
+        return response;
+      },
+      [],
+    );
 
-    return response;
-  }, []);
+  const login =
+    useCallback(
+      async (credentials) => {
+        const response =
+          await loginAccount(
+            credentials,
+          );
 
-  const logout = useCallback(async () => {
-    await logoutAccount();
-    setUser(null);
-  }, []);
+        setUser(response.user);
 
-  const googleLogin = useCallback(async (credential) => {
-    const response = await loginWithGoogle(credential);
-    setUser(response.user);
-    return response;
-  }, []);
+        return response;
+      },
+      [],
+    );
+
+  const logout =
+    useCallback(async () => {
+      await logoutAccount();
+      setUser(null);
+    }, []);
+
+  const googleLogin =
+    useCallback(
+      async (credential) => {
+        const response =
+          await loginWithGoogle(
+            credential,
+          );
+
+        setUser(response.user);
+
+        return response;
+      },
+      [],
+    );
 
   const value = useMemo(
     () => ({
       user,
       initialising,
-      isAuthenticated: Boolean(user),
+      isAuthenticated:
+        Boolean(user),
       register,
       login,
       googleLogin,
@@ -96,17 +141,22 @@ export function AuthProvider({ children }) {
   );
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={value}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context =
+    useContext(AuthContext);
 
   if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
+    throw new Error(
+      "useAuth must be used inside AuthProvider",
+    );
   }
 
   return context;

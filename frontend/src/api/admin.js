@@ -14,23 +14,32 @@ export function getAdminProducts(
   const parameters =
     new URLSearchParams();
 
-  Object.entries(filters).forEach(
+  Object.entries(
+    filters,
+  ).forEach(
     ([key, value]) => {
       if (
-        value !== undefined &&
+        value !==
+          undefined &&
         value !== null &&
         value !== ""
       ) {
-        parameters.set(key, value);
+        parameters.set(
+          key,
+          value,
+        );
       }
     },
   );
 
-  const query = parameters.toString();
+  const query =
+    parameters.toString();
 
   return apiRequest(
     `/admin/products${
-      query ? `?${query}` : ""
+      query
+        ? `?${query}`
+        : ""
     }`,
   );
 }
@@ -41,8 +50,11 @@ export function getAdminOrders(
 ) {
   const parameters =
     new URLSearchParams({
-      page: String(page),
-      limit: "20",
+      page:
+        String(page),
+
+      limit:
+        "20",
     });
 
   if (status) {
@@ -64,10 +76,13 @@ export function updateAdminOrderStatus(
   return apiRequest(
     `/admin/orders/${orderId}/status`,
     {
-      method: "PATCH",
-      body: JSON.stringify({
-        status,
-      }),
+      method:
+        "PATCH",
+
+      body:
+        JSON.stringify({
+          status,
+        }),
     },
   );
 }
@@ -78,8 +93,13 @@ export function createAdminProduct(
   return apiRequest(
     "/admin/products",
     {
-      method: "POST",
-      body: JSON.stringify(product),
+      method:
+        "POST",
+
+      body:
+        JSON.stringify(
+          product,
+        ),
     },
   );
 }
@@ -91,8 +111,13 @@ export function updateAdminProduct(
   return apiRequest(
     `/admin/products/${productId}`,
     {
-      method: "PUT",
-      body: JSON.stringify(product),
+      method:
+        "PUT",
+
+      body:
+        JSON.stringify(
+          product,
+        ),
     },
   );
 }
@@ -103,18 +128,66 @@ export function uploadAdminImages(
   const formData =
     new FormData();
 
-  files.forEach((file) => {
-    formData.append(
-      "images",
-      file,
-    );
-  });
+  files.forEach(
+    (file) => {
+      formData.append(
+        "images",
+        file,
+      );
+    },
+  );
 
   return apiRequest(
     "/admin/uploads/images",
     {
-      method: "POST",
-      body: formData,
+      method:
+        "POST",
+
+      body:
+        formData,
+    },
+  );
+}
+
+export function getAdminReturns(
+  page = 1,
+  status = "",
+) {
+  const parameters =
+    new URLSearchParams({
+      page:
+        String(page),
+
+      limit:
+        "20",
+    });
+
+  if (status) {
+    parameters.set(
+      "status",
+      status,
+    );
+  }
+
+  return apiRequest(
+    `/admin/returns?${parameters.toString()}`,
+  );
+}
+
+export function updateAdminReturnStatus(
+  returnId,
+  status,
+) {
+  return apiRequest(
+    `/admin/returns/${returnId}/status`,
+    {
+      method:
+        "PATCH",
+
+      body:
+        JSON.stringify({
+          status,
+        }),
     },
   );
 }

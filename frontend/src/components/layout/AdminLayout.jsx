@@ -31,25 +31,39 @@ export default function AdminLayout() {
     logout,
   } = useAuth();
 
-  const toast = useToast();
-  const navigate = useNavigate();
+  const toast =
+    useToast();
 
-  const [menuOpen, setMenuOpen] =
-    useState(false);
+  const navigate =
+    useNavigate();
 
-  const [loggingOut, setLoggingOut] =
-    useState(false);
+  const [
+    menuOpen,
+    setMenuOpen,
+  ] = useState(false);
+
+  const [
+    loggingOut,
+    setLoggingOut,
+  ] = useState(false);
 
   function closeMenu() {
-    setMenuOpen(false);
+    setMenuOpen(
+      false,
+    );
   }
 
   function toggleMenu() {
-    setMenuOpen((current) => !current);
+    setMenuOpen(
+      (current) =>
+        !current,
+    );
   }
 
   async function handleLogout() {
-    setLoggingOut(true);
+    setLoggingOut(
+      true,
+    );
 
     try {
       await logout();
@@ -65,7 +79,9 @@ export default function AdminLayout() {
           "Unable to log out",
       );
 
-      setLoggingOut(false);
+      setLoggingOut(
+        false,
+      );
     }
   }
 
@@ -79,7 +95,9 @@ export default function AdminLayout() {
         }`}
         type="button"
         aria-label="Close administrator menu"
-        onClick={closeMenu}
+        onClick={
+          closeMenu
+        }
       />
 
       <aside
@@ -93,7 +111,9 @@ export default function AdminLayout() {
           <Link
             className="admin-sidebar__logo"
             to="/admin"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
             CARTIFY
           </Link>
@@ -108,12 +128,18 @@ export default function AdminLayout() {
           aria-label="Administrator navigation"
         >
           <NavLink
-            className={adminNavClass}
+            className={
+              adminNavClass
+            }
             to="/admin"
             end
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
               ◫
             </span>
 
@@ -121,11 +147,17 @@ export default function AdminLayout() {
           </NavLink>
 
           <NavLink
-            className={adminNavClass}
+            className={
+              adminNavClass
+            }
             to="/admin/products"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
               ◇
             </span>
 
@@ -133,11 +165,35 @@ export default function AdminLayout() {
           </NavLink>
 
           <NavLink
-            className={adminNavClass}
-            to="/admin/orders"
-            onClick={closeMenu}
+            className={
+              adminNavClass
+            }
+            to="/admin/returns"
+            onClick={
+              closeMenu
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
+              ↩
+            </span>
+
+            Returns
+          </NavLink>
+
+          <NavLink
+            className={
+              adminNavClass
+            }
+            to="/admin/orders"
+            onClick={
+              closeMenu
+            }
+          >
+            <span
+              aria-hidden="true"
+            >
               ▤
             </span>
 
@@ -151,15 +207,21 @@ export default function AdminLayout() {
               className="admin-user-avatar"
               aria-hidden="true"
             >
-              {user?.firstName
+              {user
+                ?.firstName
                 ?.charAt(0)
-                .toUpperCase() || "A"}
+                .toUpperCase() ||
+                "A"}
             </span>
 
             <div>
               <strong>
-                {user?.firstName}{" "}
-                {user?.lastName}
+                {
+                  user?.firstName
+                }{" "}
+                {
+                  user?.lastName
+                }
               </strong>
 
               <span>
@@ -171,9 +233,13 @@ export default function AdminLayout() {
           <Link
             className="admin-shell-link"
             to="/"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
               ←
             </span>
 
@@ -183,9 +249,13 @@ export default function AdminLayout() {
           <Link
             className="admin-shell-link"
             to="/account"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
               ○
             </span>
 
@@ -195,10 +265,16 @@ export default function AdminLayout() {
           <button
             className="admin-shell-link admin-logout-button"
             type="button"
-            onClick={handleLogout}
-            disabled={loggingOut}
+            onClick={
+              handleLogout
+            }
+            disabled={
+              loggingOut
+            }
           >
-            <span aria-hidden="true">
+            <span
+              aria-hidden="true"
+            >
               ↪
             </span>
 
@@ -219,8 +295,12 @@ export default function AdminLayout() {
                 ? "Close administrator menu"
                 : "Open administrator menu"
             }
-            aria-expanded={menuOpen}
-            onClick={toggleMenu}
+            aria-expanded={
+              menuOpen
+            }
+            onClick={
+              toggleMenu
+            }
           >
             <span />
             <span />
@@ -242,7 +322,10 @@ export default function AdminLayout() {
             to="/"
           >
             View store
-            <span aria-hidden="true">
+
+            <span
+              aria-hidden="true"
+            >
               ↗
             </span>
           </Link>

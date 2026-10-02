@@ -21,7 +21,9 @@ export function logoutAccount() {
 }
 
 export function getCurrentUser() {
-  return apiRequest("/auth/me");
+  return apiRequest("/auth/me", {
+    retryOnNetworkError: true,
+  });
 }
 
 export function requestPasswordReset(email) {

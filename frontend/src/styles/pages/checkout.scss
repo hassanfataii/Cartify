@@ -1,0 +1,118 @@
+.checkout-success {
+  justify-items: center;
+  text-align: center;
+}
+
+.checkout-success > p:not(.eyebrow) {
+  max-width: 520px;
+  margin-block: 18px 28px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.checkout-success__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.checkout-test-note {
+  padding: 15px;
+  display: grid !important;
+  gap: 6px !important;
+  border: 1px solid rgba(98, 70, 199, 0.2);
+  border-radius: 12px;
+  color: var(--text) !important;
+  background: var(--brand-soft);
+  font-size: 0.85rem;
+}
+
+.checkout-test-note p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* Saved delivery address */
+
+.checkout-address {
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.checkout-address__heading {
+  margin-bottom: 13px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.checkout-address__heading h3 {
+  font-size: 1rem;
+}
+
+.checkout-address__heading a,
+.checkout-address__notice a,
+.checkout-address__notice button {
+  color: var(--brand);
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.checkout-address__list {
+  display: grid;
+  gap: 10px;
+}
+
+.checkout-address__option {
+  padding: 12px;
+  display: flex;
+  align-items: start;
+  gap: 11px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-solid);
+  cursor: pointer;
+}
+
+.checkout-address__option:has(input:checked) {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.checkout-address__option input {
+  margin-top: 4px;
+  accent-color: var(--brand);
+}
+
+.checkout-address__option > span {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  overflow-wrap: anywhere;
+  font-size: 0.86rem;
+}
+
+.checkout-address__option
+  > span
+  > span {
+  color: var(--muted);
+}
+
+.checkout-address__notice {
+  display: grid;
+  gap: 8px;
+}
+
+.checkout-address__notice p {
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+.checkout-address__notice button {
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}

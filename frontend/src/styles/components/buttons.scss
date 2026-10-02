@@ -1,0 +1,156 @@
+.primary-button,
+.product-card__link,
+.secondary-button {
+  min-height: 48px;
+
+  padding:
+    0 21px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  font-size: 0.92rem;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.primary-button,
+.product-card__link {
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.28
+    );
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7256cf,
+      #5035a7
+    );
+
+  box-shadow:
+    0 12px 25px
+    rgba(
+      78,
+      53,
+      163,
+      0.22
+    );
+}
+
+.primary-button:hover:not(:disabled),
+.product-card__link:hover {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8064dc,
+      #5940b4
+    );
+
+  box-shadow:
+    0 15px 32px
+    rgba(
+      78,
+      53,
+      163,
+      0.3
+    );
+
+  transform:
+    translateY(-2px);
+}
+
+.secondary-button {
+  min-height: 46px;
+
+  padding:
+    0 20px;
+
+  border:
+    1px solid
+    var(--brand);
+
+  border-radius: 10px;
+
+  color: var(--brand);
+
+  background:
+    transparent;
+
+  font-weight: 750;
+
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.secondary-button:hover:not(:disabled) {
+  color: grey;
+
+  background:
+    var(--brand);
+
+  transform:
+    translateY(-2px);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 12px;
+}
+
+.nav-user {
+  margin-left: 8px;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+}
+
+.nav-button {
+  border: 0;
+  background: transparent;
+}
+
+.product-card__actions {
+  margin-top: auto;
+
+  display: grid;
+
+  gap: 10px;
+}
+
+.product-card__actions
+  .product-card__link {
+  margin-top: 0;
+}
+
+.product-information__actions {
+  margin-top: 28px;
+}

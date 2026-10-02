@@ -1,0 +1,257 @@
+.admin-form-panel {
+  margin-bottom: 28px;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.admin-product-form {
+  display: grid;
+  gap: 24px;
+}
+
+.admin-form-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-form-heading h2 {
+  margin: 0 0 6px;
+}
+
+.admin-form-heading p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.admin-close-button {
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+  gap: 18px;
+}
+
+.admin-form-grid label {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.admin-form-grid input,
+.admin-form-grid select,
+.admin-form-grid textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: #ffffff;
+  font: inherit;
+}
+
+.admin-form-grid textarea {
+  resize: vertical;
+}
+
+.admin-field--wide {
+  grid-column: 1 / -1;
+}
+
+.admin-form-grid
+  .admin-checkbox {
+  display: flex;
+  align-items: center;
+  grid-template-columns:
+    auto 1fr;
+}
+
+.admin-checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.admin-product-cell {
+  display: grid;
+  grid-template-columns:
+    52px
+    minmax(140px, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-product-cell img {
+  width: 52px;
+  height: 52px;
+  padding: 4px;
+  object-fit: contain;
+  background: #ffffff;
+}
+
+.admin-product-cell > div {
+  display: grid;
+  gap: 4px;
+}
+
+.admin-product-cell span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.admin-visibility {
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.admin-visibility--active {
+  color: #17663a;
+  background: #dff6e8;
+}
+
+.admin-visibility--inactive {
+  color: #7a3030;
+  background: #fee4e2;
+}
+
+.stock-low {
+  color: #946200;
+  font-weight: 800;
+}
+
+.admin-edit-button {
+  border: 0;
+  color: var(--brand);
+  background: transparent;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  .admin-form-grid {
+    grid-template-columns:
+      1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-form-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .admin-field--wide {
+    grid-column: auto;
+  }
+}
+
+.admin-content-group {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.admin-content-group__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-content-group__heading h3 {
+  margin: 0 0 4px;
+}
+
+.admin-content-group__heading p {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.admin-content-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.admin-content-row--spec {
+  grid-template-columns:
+    minmax(140px, 0.65fr)
+    minmax(0, 1.35fr)
+    auto;
+}
+
+.admin-content-row label {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.admin-content-row input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: white;
+}
+
+.admin-content-remove {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  color: var(--danger);
+  background: transparent;
+  font-weight: 750;
+}
+
+.admin-content-remove:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 650px) {
+  .admin-content-group {
+    padding: 16px;
+  }
+
+  .admin-content-row--spec {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-content-remove {
+    justify-self: start;
+  }
+}

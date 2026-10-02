@@ -7,7 +7,6 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { ToastProvider } from "./context/ToastContext";
 import { WishlistProvider } from "./context/WishlistContext";
-import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

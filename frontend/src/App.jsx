@@ -26,7 +26,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ShopPage from "./pages/ShopPage";
 import WishlistPage from "./pages/WishlistPage";
 
-import "./App.css";
+import "./styles/app.scss";
 
 function NotFoundPage() {
   return (

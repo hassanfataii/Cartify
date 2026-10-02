@@ -212,6 +212,37 @@ async function createIndexes(database) {
       { userId: 1 },
       { unique: true },
     );
+
+  await database
+    .collection(
+      "adminNotifications",
+    )
+    .createIndex({
+      createdAt: -1,
+    });
+
+  await database
+    .collection(
+      "adminNotifications",
+    )
+    .createIndex({
+      isRead: 1,
+      createdAt: -1,
+    });
+
+  await database
+    .collection(
+      "adminNotifications",
+    )
+    .createIndex(
+      {
+        uniqueKey: 1,
+      },
+      {
+        unique: true,
+        sparse: true,
+      },
+    );
 }
 
 async function prepareProductSearchIndex(

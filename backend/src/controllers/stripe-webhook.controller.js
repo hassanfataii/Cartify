@@ -4,6 +4,11 @@ import Stripe from "stripe";
 import { getDatabase } from "../config/database.js";
 import { sendOrderConfirmationEmail } from "../emails/order-emails.js";
 
+import {
+  ADMIN_NOTIFICATION_TYPES,
+  createAdminNotification,
+} from "../services/notification.service.js";
+
 function getStripe() {
   return new Stripe(
     process.env.STRIPE_SECRET_KEY,
@@ -402,6 +407,47 @@ async function completePaidOrder(
         },
       },
     );
+
+    try {
+      await createAdminNotification({
+        type:
+          ADMIN_NOTIFICATION_TYPES
+            .NEW_ORDER,
+
+        title:
+          "New order received",
+
+        message:
+          `Order #${
+            orderObjectId
+              .toString()
+              .slice(-8)
+              .toUpperCase()
+          } has been paid.`,
+
+        link:
+          "/admin/orders",
+
+        uniqueKey:
+          `new-order:${orderObjectId.toString()}`,
+
+        metadata: {
+          orderId:
+            orderObjectId.toString(),
+
+          totalInPence:
+            order.totalInPence,
+
+          currency:
+            order.currency,
+        },
+      });
+    } catch (error) {
+      console.error(
+        "Unable to create admin order notification:",
+        error,
+      );
+    }
 
     const purchasedProductIds =
       order.items.map(

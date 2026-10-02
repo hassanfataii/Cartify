@@ -25,5 +25,6 @@
 @use "./layout/admin-layout";
 @use "./admin/orders" as admin-orders;
 @use "./admin/returns" as admin-returns;
+@use "./admin/notifications" as admin-notifications;
 
 @use "./components/notifications";

@@ -44,6 +44,12 @@ import {
   requireAuthentication,
 } from "../middleware/auth.middleware.js";
 
+import {
+  getAdminNotifications,
+  markAdminNotificationRead,
+  markAllAdminNotificationsRead,
+} from "../controllers/admin-notification.controller.js";
+
 const router =
   Router();
 
@@ -96,6 +102,21 @@ router.get(
 router.patch(
   "/returns/:returnId/status",
   updateAdminReturnStatus,
+);
+
+router.get(
+  "/notifications",
+  getAdminNotifications,
+);
+
+router.patch(
+  "/notifications/read-all",
+  markAllAdminNotificationsRead,
+);
+
+router.patch(
+  "/notifications/:notificationId/read",
+  markAdminNotificationRead,
 );
 
 export default router;

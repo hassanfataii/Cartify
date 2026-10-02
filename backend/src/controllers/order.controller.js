@@ -3,6 +3,11 @@ import { z } from "zod";
 
 import { getDatabase } from "../config/database.js";
 
+import {
+  ADMIN_NOTIFICATION_TYPES,
+  createAdminNotification,
+} from "../services/notification.service.js";
+
 const RETURN_REASONS = [
   "changed_mind",
   "wrong_item",
@@ -635,6 +640,46 @@ export async function createReturnRequest(
 
   returnRequest._id =
     result.insertedId;
+
+  try {
+    await createAdminNotification({
+      type:
+        ADMIN_NOTIFICATION_TYPES
+          .RETURN_REQUEST,
+
+      title:
+        "New return request",
+
+      message:
+        `A return request was submitted for order #${
+          order._id
+            .toString()
+            .slice(-8)
+            .toUpperCase()
+        }.`,
+
+      link:
+        "/admin/returns",
+
+      uniqueKey:
+        `return-request:${returnRequest._id.toString()}`,
+
+      metadata: {
+        orderId:
+          order._id.toString(),
+
+        returnId:
+          returnRequest._id.toString(),
+
+        requestedRefundInPence,
+      },
+    });
+  } catch (error) {
+    console.error(
+      "Unable to create admin return notification:",
+      error,
+    );
+  }
 
   const updatedReturnRequests = [
     returnRequest,

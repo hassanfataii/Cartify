@@ -191,3 +191,33 @@ export function updateAdminReturnStatus(
     },
   );
 }
+
+export function getAdminNotifications(
+  limit = 20,
+) {
+  return apiRequest(
+    `/admin/notifications?limit=${limit}`,
+  );
+}
+
+export function markAdminNotificationRead(
+  notificationId,
+) {
+  return apiRequest(
+    `/admin/notifications/${notificationId}/read`,
+    {
+      method:
+        "PATCH",
+    },
+  );
+}
+
+export function markAllAdminNotificationsRead() {
+  return apiRequest(
+    "/admin/notifications/read-all",
+    {
+      method:
+        "PATCH",
+    },
+  );
+}

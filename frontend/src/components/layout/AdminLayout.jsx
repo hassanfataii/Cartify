@@ -17,6 +17,8 @@ import {
   useToast,
 } from "../../context/ToastContext";
 
+import AdminNotifications from "../admin/AdminNotifications";
+
 function adminNavClass({
   isActive,
 }) {
@@ -316,6 +318,8 @@ export default function AdminLayout() {
               {user?.email}
             </strong>
           </div>
+
+          <AdminNotifications />
 
           <Link
             className="admin-store-link"
